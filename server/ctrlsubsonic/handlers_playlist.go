@@ -6,6 +6,7 @@ import (
 	"fmt"
 	"log"
 	"net/http"
+	"slices"
 	"sort"
 	"time"
 
@@ -148,7 +149,7 @@ func (c *Controller) ServeUpdatePlaylist(r *http.Request) *spec.Response {
 	if indexes, err := params.GetIntList("songIndexToRemove"); err == nil {
 		sort.Sort(sort.Reverse(sort.IntSlice(indexes)))
 		for _, i := range indexes {
-			playlist.Items = append(playlist.Items[:i], playlist.Items[i+1:]...)
+			playlist.Items = slices.Delete(playlist.Items, i, i)
 		}
 	}
 
